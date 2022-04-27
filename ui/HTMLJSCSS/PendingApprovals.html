@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div>
+        Enter the Reimbursement Id you want to update:
+        <input type="number" id="reimbId" name="reimbId">
+    </div>
+
+    <div>
+        Do you want to approve or deny?
+        <label>Type:</label>
+        <input type="radio" id="radioButtonVal1" name="status" class="typeRadio" value=2>Approve
+        <input type="radio" id="radioButtonVal2" name="status" class="typeRadio" value=3>Deny
+    </div>
+
+    <button type="submit" onclick="submit()">Send Status Update</button>
+    <script>
+        async function submit() {
+            let typeVal = 0;
+            for (let ele of document.getElementsByClassName("typeRadio")) {
+                if (ele.checked == true) {
+                    typeVal = ele.value;
+                }
+            }
+            if (typeVal == 0) {
+                alert("Must select type");
+            }
+            else {
+                let reimbursement = {
+                    reimbursementId: document.getElementById("reimbId").value,
+                    resolver: localStorage.getItem("idToke"),
+                    status: typeVal
+                }
+                console.log("Building Reim Obj: ", reimbursement);
+                let response = await adminUpdateReimbursement(reimbursement);
+                console.log("Response: ", response);
+                if (response.status == 200) {
+                    alert("Reimbursement successfully completed");
+                    window.location.href = "./FinanceManagerHome.html"
+                }
+                else {
+                    alert("Unable to create new reimbursement");
+                }
+            }
+        }
+    </script>
+
+
+    <hr id="title">Reimbursements</hr>
+    <table>
+        <thead>
+            <tr>
+                <th>Reimbursement Id</th>
+                <th>Amount</th>
+                <th>Submitted on</th>
+                <th>Resolved on</th>
+                <th>Description</th>
+                <th>Author id</th>
+                <th>Resolver Id</th>
+                <th>Status</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody id="tableData"></tbody>
+    </table>
+
+    <button onclick="toFMHome()">Home</button>
+    <script>
+        function toFMHome() {
+            window.location.href = "./FinanceManagerHome.html"
+        }
+    </script>
+    <script src="./AdminReimbursements.js"></script>
+    <script>
+        //window.onload = getItem(localStorage.getItem("idToke"));
+        (async function getItem() {
+            let response = await fetch(
+                "http://localhost:8080/ERS/Admin",
+                {
+                    method: "GET",
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+
+                    }
+                });
+            let json = await response.json();
+
+            /*
+            for (let ele of json) {
+                console.log(ele.description);
+            }
+            */
+            console.log(json);
+            for (let ele of json) {
+                let temp = "";
+                temp += "<tr>";
+                temp += "<td>" + ele.reimbursementId + "</td>";
+                temp += "<td>" + ele.reimbursementAmount + "</td>";
+                temp += "<td>" + ele.submitted + "</td>";
+                temp += "<td>" + ele.resolved + "</td>";
+                temp += "<td>" + ele.description + "</td>";
+                temp += "<td>" + ele.author + "</td>";
+                temp += "<td>" + ele.resolver + "</td>";
+                temp += "<td>" + ele.status + "</td>";
+                temp += "<td>" + ele.type + "</td>";
+                temp += "</tr>";
+
+
+                document.getElementById("tableData").innerHTML += temp;
+            }
+        })();
+    </script>
+</body>
+
+</html>
