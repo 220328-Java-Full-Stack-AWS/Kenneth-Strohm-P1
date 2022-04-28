@@ -92,6 +92,7 @@ public class ReimbursementServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Made it to the delete section of reimbursement");
+        System.out.println(req.getHeader("reimbId"));
         rServices.delete(Integer.parseInt(req.getHeader("reimbId")));
         resp.setStatus(200);
     }

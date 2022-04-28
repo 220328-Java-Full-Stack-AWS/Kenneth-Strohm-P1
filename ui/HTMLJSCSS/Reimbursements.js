@@ -42,6 +42,8 @@ async function updateReimbursement(reimbursement) {
 }
 
 async function deleteReimbursement(id) {
+    var answer = window.confirm("Do you want to delete reimbursement id: " + id );
+    if(answer){
     let response = await fetch(
         "http://localhost:8080/ERS/Reimbursement",
         {
@@ -53,4 +55,9 @@ async function deleteReimbursement(id) {
             }
         });
     return response;
+    }
+    else{
+        alert("Did not delete");
+        window.location.href = "./ViewReimbursements.html"
+    }
 }

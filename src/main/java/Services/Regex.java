@@ -37,6 +37,14 @@ public class Regex {
         Matcher mat = pat.matcher(password);
         return mat.matches();
     }
+
+    public boolean descriptionCheck(String description){
+        String regex = "^.{3,}$";
+        Pattern pat = Pattern.compile(regex);
+        Matcher mat = pat.matcher(description);
+        return mat.matches();
+    }
+
     public boolean dollarCheck(double amount) {
         String regex = "^^[0-9]+(\\.[0-9][0-9])?$";
         Pattern pat = Pattern.compile(regex);

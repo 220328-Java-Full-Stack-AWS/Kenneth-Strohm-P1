@@ -9,52 +9,6 @@
 </head>
 
 <body>
-
-    <div>
-        Enter the Reimbursement Id you want to update:
-        <input type="number" id="reimbId" name="reimbId">
-    </div>
-
-    <div>
-        Do you want to approve or deny?
-        <label>Type:</label>
-        <input type="radio" id="radioButtonVal1" name="status" class="typeRadio" value=2>Approve
-        <input type="radio" id="radioButtonVal2" name="status" class="typeRadio" value=3>Deny
-    </div>
-
-    <button type="submit" onclick="submit()">Send Status Update</button>
-    <script>
-        async function submit() {
-            let typeVal = 0;
-            for (let ele of document.getElementsByClassName("typeRadio")) {
-                if (ele.checked == true) {
-                    typeVal = ele.value;
-                }
-            }
-            if (typeVal == 0) {
-                alert("Must select type");
-            }
-            else {
-                let reimbursement = {
-                    reimbursementId: document.getElementById("reimbId").value,
-                    resolver: localStorage.getItem("idToke"),
-                    status: typeVal
-                }
-                console.log("Building Reim Obj: ", reimbursement);
-                let response = await adminUpdateReimbursement(reimbursement);
-                console.log("Response: ", response);
-                if (response.status == 200) {
-                    alert("Reimbursement successfully completed");
-                    window.location.href = "./FinanceManagerHome.html"
-                }
-                else {
-                    alert("Unable to create new reimbursement");
-                }
-            }
-        }
-    </script>
-
-
     <hr id="title">Reimbursements</hr>
     <table>
         <thead>
@@ -62,10 +16,8 @@
                 <th>Reimbursement Id</th>
                 <th>Amount</th>
                 <th>Submitted on</th>
-                <th>Resolved on</th>
                 <th>Description</th>
                 <th>Author id</th>
-                <th>Resolver Id</th>
                 <th>Status</th>
                 <th>Type</th>
             </tr>
@@ -73,12 +25,13 @@
         <tbody id="tableData"></tbody>
     </table>
 
-    <button onclick="toFMHome()">Home</button>
+    <button onclick="toFMHome()">Admin Home</button>
     <script>
         function toFMHome() {
             window.location.href = "./FinanceManagerHome.html"
         }
     </script>
+    <script src="./SiteFunctionality.js"></script>
     <script src="./AdminReimbursements.js"></script>
     <script>
         //window.onload = getItem(localStorage.getItem("idToke"));
@@ -107,12 +60,12 @@
                 temp += "<td>" + ele.reimbursementId + "</td>";
                 temp += "<td>" + ele.reimbursementAmount + "</td>";
                 temp += "<td>" + ele.submitted + "</td>";
-                temp += "<td>" + ele.resolved + "</td>";
                 temp += "<td>" + ele.description + "</td>";
-                temp += "<td>" + ele.author + "</td>";
-                temp += "<td>" + ele.resolver + "</td>";
-                temp += "<td>" + ele.status + "</td>";
-                temp += "<td>" + ele.type + "</td>";
+                temp += "<td>" + ele.authorName + "</td>";
+                temp += "<td>" + ele.enumStatus + "</td>";
+                temp += "<td>" + ele.enumType + "</td>";
+                temp += "<td> <button id=" + ele.reimbursementId + " type=\"submit\" onclick=\"approve("+ ele.reimbursementId + ")\">Approve</button> </td>";
+                temp += "<td> <button id=" + ele.reimbursementId + " type=\"submit\" onclick=\"deny("+ ele.reimbursementId + ")\">Deny</button> </td>";
                 temp += "</tr>";
 
 
@@ -120,6 +73,62 @@
             }
         })();
     </script>
+
+
+<script>
+    async function approve(id) {
+        var answer = window.confirm("Are you sure you want to approve reimbursement: ", id);
+        if(answer){
+            let reimbursement = {
+                reimbursementId: id,
+                resolver: localStorage.getItem("idToke"),
+                status: 2
+            }
+            console.log("Building Reim Obj: ", reimbursement);
+            let response = await adminUpdateReimbursement(reimbursement);
+            console.log("Response: ", response);
+            if (response.status == 200) {
+                alert("Reimbursement successfully completed");
+                window.location.href = "./FinanceManagerHome.html"
+            }
+            else {
+                alert("Unable to create new reimbursement");
+            }
+        }
+        else{
+            alert("Did not approve")
+            window.location.href = "./PendingApprovals.html";
+        }
+    }
+</script>
+<script>
+    async function deny(id) {
+        var answer = window.confirm("Are you sure you want to deny reimbursement: ", id);
+        if(answer){
+            let reimbursement = {
+                reimbursementId: id,
+                resolver: localStorage.getItem("idToke"),
+                status: 3
+            }
+            //console.log("Building Reim Obj: ", reimbursement);
+            let response = await adminUpdateReimbursement(reimbursement);
+            console.log("Response: ", response);
+            if (response.status == 200) {
+                alert("Reimbursement successfully completed");
+                window.location.href = "./FinanceManagerHome.html"
+            }
+            else {
+                alert("Unable to create new reimbursement");
+            }
+        }
+        else{
+            alert("Did not deny")
+            window.location.href = "./PendingApprovals.html";
+        }
+    }
+    
+</script>
+
 </body>
 
 </html>

@@ -2,6 +2,8 @@ package Persistence;
 
 import Connection.DBConnector;
 import Models.Reimbursement;
+import Models.Status;
+import Models.Type;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
+
+    private UserDAO udao = new UserDAO();
 
     @Override
     public Reimbursement create(Reimbursement model) {
@@ -92,6 +96,32 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
                 reimb.setAuthor(rs.getInt("reimb_author"));
                 reimb.setStatus(rs.getInt("reimb_status_id"));
                 reimb.setType(rs.getInt("reimb_type_id"));
+                reimb.setAuthorName(udao.read(reimb.getAuthor()).getUserName());
+                switch (reimb.getStatus()){
+                    case 1:
+                        reimb.setEnumStatus(Status.PENDING);
+                        break;
+                    case 2:
+                        reimb.setEnumStatus(Status.APPROVED);
+                        break;
+                    case 3:
+                        reimb.setEnumStatus(Status.DENIED);
+                        break;
+                }
+                switch (reimb.getType()){
+                    case 1:
+                        reimb.setEnumType(Type.TRANSPORTATION);
+                        break;
+                    case 2:
+                        reimb.setEnumType(Type.FOOD);
+                        break;
+                    case 3:
+                        reimb.setEnumType(Type.LODGING);
+                        break;
+                    case 4:
+                        reimb.setEnumType(Type.MISCELLANEOUS);
+                        break;
+                }
                 list.add(reimb);
             }
         }
@@ -137,8 +167,36 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
                 reimb.setSubmitted(rs.getString("reimb_submitted"));
                 reimb.setDescription(rs.getString("reimb_description"));
                 reimb.setAuthor(rs.getInt("reimb_author"));
+                reimb.setResolver(rs.getInt("reimb_resolver"));
                 reimb.setStatus(rs.getInt("reimb_status_id"));
                 reimb.setType(rs.getInt("reimb_type_id"));
+                reimb.setAuthorName(udao.read(reimb.getAuthor()).getUserName());
+                reimb.setResolverName(udao.read(reimb.getResolver()).getUserName());
+                switch (reimb.getStatus()){
+                    case 1:
+                        reimb.setEnumStatus(Status.PENDING);
+                        break;
+                    case 2:
+                        reimb.setEnumStatus(Status.APPROVED);
+                        break;
+                    case 3:
+                        reimb.setEnumStatus(Status.DENIED);
+                        break;
+                }
+                switch (reimb.getType()){
+                    case 1:
+                        reimb.setEnumType(Type.TRANSPORTATION);
+                        break;
+                    case 2:
+                        reimb.setEnumType(Type.FOOD);
+                        break;
+                    case 3:
+                        reimb.setEnumType(Type.LODGING);
+                        break;
+                    case 4:
+                        reimb.setEnumType(Type.MISCELLANEOUS);
+                        break;
+                }
                 list.add(reimb);
             }
         }

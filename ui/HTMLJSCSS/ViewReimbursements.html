@@ -11,7 +11,7 @@
 
 <body>
     <hr id="title">Reimbursements</hr>
-    <table>
+    <table id="reimbTable">
         <thead>
             <tr>
                 <th>Reimbursement Id</th>
@@ -35,6 +35,7 @@
         }
     </script>
 
+    <script src="./SiteFunctionality.js"></script>
     <script src="./Reimbursements.js"></script>
     <script>
         //window.onload = getItem(localStorage.getItem("idToke"));
@@ -59,23 +60,48 @@
             */
             console.log(json);
             for (let ele of json) {
-                let temp = "";
-                temp += "<tr>";
+                let temp = "<tr id=" + ele.reimbursementId + " \" onmouseover=\"changeColor(this, true);\" onmouseout=\"changeColor(this, false);\">";
                 temp += "<td>" + ele.reimbursementId + "</td>";
-                temp += "<td>" + ele.reimbursementAmount + "</td>";
+                temp += "<td>" + ele.reimbursementAmount +"</td>";
                 temp += "<td>" + ele.submitted + "</td>";
                 temp += "<td>" + ele.resolved + "</td>";
                 temp += "<td>" + ele.description + "</td>";
-                temp += "<td>" + ele.author + "</td>";
-                temp += "<td>" + ele.resolver + "</td>";
-                temp += "<td>" + ele.status + "</td>";
-                temp += "<td>" + ele.type + "</td>";
-                temp += "</tr>";
-
-
+                temp += "<td>" + ele.authorName + "</td>";
+                temp += "<td>" + ele.resolverName + "</td>";
+                temp += "<td>" + ele.enumStatus + "</td>";
+                temp += "<td>" + ele.enumType + "</td>";
+                temp += "<td> <button id=" + ele.reimbursementId + " type=\"submit\" onclick=\"submit("+ ele.reimbursementId + ")\">Delete</button> </td>";
+                if(ele.status == 1){
+                    temp += "<td> <button id=" + ele.reimbursementId + " type=\"submit\" onclick=\"submit1("+ ele.reimbursementId + ")\">Update</button> </td>";
+                }
                 document.getElementById("tableData").innerHTML += temp;
+    }
+    })(localStorage.getItem("idToke"));
+    </script>
+    <script src="Reimbursements.js"></script>
+    <script>
+        async function submit(id) {
+            console.log(id);
+            //let message = document.getElementById(id).innerText.toString;
+            //console.log(message);
+            let response = await deleteReimbursement(id);
+            console.log("Response: ", response);
+            if (response.status == 200) {
+                alert("Reimbursement successfully completed");
+                window.location.href = "./Landing.html"
             }
-        })(localStorage.getItem("idToke"));
+            else {
+                alert("Unable to delete reimbursement");
+            }
+
+        }
+    </script>
+    <script>
+        function submit1(id) {
+            localStorage.setItem("reimbIdToke", id);
+            console.log(localStorage.getItem("reimbIdToke"));
+            window.location.href = "./UpdateReimbursements.html"
+        }
     </script>
 
 </body>

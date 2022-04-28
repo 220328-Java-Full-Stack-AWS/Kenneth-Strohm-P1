@@ -18,7 +18,10 @@ public class Reimbursement extends Model{
     private int resolver;
     private int status;
     private int type;
+    private Status enumStatus;
     private Type enumType;
+    private String authorName;
+    private String resolverName;
 
     public Reimbursement() {
     }
@@ -111,6 +114,14 @@ public class Reimbursement extends Model{
         this.type = type;
     }
 
+    public Status getEnumStatus() {
+        return enumStatus;
+    }
+
+    public void setEnumStatus(Status enumStatus) {
+        this.enumStatus = enumStatus;
+    }
+
     public Type getEnumType() {
         return enumType;
     }
@@ -119,19 +130,39 @@ public class Reimbursement extends Model{
         this.enumType = enumType;
     }
 
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getResolverName() {
+        return resolverName;
+    }
+
+    public void setResolverName(String resolverName) {
+        this.resolverName = resolverName;
+    }
+
     @Override
     public String toString() {
         return "Reimbursement{" +
                 "reimbursementId=" + reimbursementId +
                 ", reimbursementAmount=" + reimbursementAmount +
-                ", submitted=" + submitted +
-                ", resolved=" + resolved +
-                ", Description='" + description + '\'' +
+                ", submitted='" + submitted + '\'' +
+                ", resolved='" + resolved + '\'' +
+                ", description='" + description + '\'' +
                 ", image=" + image +
                 ", author=" + author +
                 ", resolver=" + resolver +
                 ", status=" + status +
                 ", type=" + type +
+                ", enumStatus=" + enumStatus +
+                ", enumType=" + enumType +
+                ", authorName='" + authorName + '\'' +
+                ", resolverName='" + resolverName + '\'' +
                 '}';
     }
 }

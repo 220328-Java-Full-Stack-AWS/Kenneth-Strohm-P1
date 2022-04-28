@@ -22,7 +22,7 @@ public class ReimbursementServices {
             System.out.println("Made it to regex dollar amount check.");
             return 1;
         }
-        else if(!reggie.userNameCheck(passedValues.getDescription())){
+        else if(!reggie.descriptionCheck(passedValues.getDescription())){
             System.out.println("Made it to regex description check.");
             return 2;
         }
