@@ -1,0 +1,16 @@
+h1{
+    background-color: #F45E3E;
+    color: white;
+    font-size: xx-large;
+}
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+thead, td{
+    padding: 10px;
+    border: 1px solid black;
+}
+p{
+    font-size: large;
+}

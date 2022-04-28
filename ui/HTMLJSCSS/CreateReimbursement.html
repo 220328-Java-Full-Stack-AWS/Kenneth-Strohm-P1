@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>createReimbursement</title>
-
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 <body>
@@ -23,7 +23,14 @@
     <input type="radio" id="radioButtonVal3" name="type" class="typeRadio" value=3>Lodging
     <input type="radio" id="radioButtonVal4" name="type" class="typeRadio" value=4>Miscellaneous
     <br>
+    <button onclick="toLanding()">Home</button>
+    <script>
+        function toLanding() {
+            window.location.href = "./Landing.html"
+        }
+    </script>
     <button onclick="submit()">Create</button>
+    
     <script src="./Reimbursements.js"></script>
     <script>
         async function submit() {

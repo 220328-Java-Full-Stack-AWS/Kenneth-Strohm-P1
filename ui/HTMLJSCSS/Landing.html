@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 <body>
 
-    <hr id="name">
-    </hr>
+    <h1 id="name">
+    </h1>
     <p>
         Welcome to the Employee Reimbursement System.
         <br>
@@ -71,7 +72,7 @@
             localStorage.setItem("roleId", json.roleId);
 
             let name = document.getElementById("name");
-            name.innerHTML += "Welcome " + json.fName + " " + json.lName + " " + json.userId;
+            name.innerHTML += "Welcome " + json.fName + " " + json.lName + " ";
 
             if (localStorage.getItem("roleId") == 2) {
                 let temp = "";
