@@ -6,6 +6,11 @@ import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Simple Pojo for reimbursements meeting all requirements
+ * Items persisted from this class will be in ers_reimbusements (table name)
+ */
+
 @JsonIgnoreProperties
 public class Reimbursement extends Model{
     private int reimbursementId;

@@ -1,5 +1,10 @@
 package Models;
 
+/**
+ * Simple Pojo for users meeting all requirements
+ * Items persisted from this class will be in ers_users (table name)
+ */
+
 public class User extends Model{
     private int userId;
     private String userName;

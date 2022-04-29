@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * This servlet class handles the requests from the front end and sends a response back.
+ */
+
 public class LoginServlet extends HttpServlet {
     private UserServices uservices;
     private ObjectMapper mapper;
@@ -23,6 +28,14 @@ public class LoginServlet extends HttpServlet {
         this.udao = new UserDAO();
     }
 
+    /**
+     * Gets the username from the header of the get request and then returns the full user.
+     * Sends a 200 response if successful
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = udao.getUserByUsername(req.getHeader("userName"));
@@ -30,6 +43,15 @@ public class LoginServlet extends HttpServlet {
         resp.getWriter().print(mapper.writeValueAsString(user));
     }
 
+    /**
+     * This requests takes in input from the user as a request.
+     * The input then gets sent to the services layer to do the validation.
+     * If it is successful, it returns a user. If it is not, it returns null.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Made into post section of LoginServlet");

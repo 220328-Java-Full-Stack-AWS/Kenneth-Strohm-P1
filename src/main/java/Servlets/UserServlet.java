@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * This servlet class handles the requests from the front end and sends a response back.
+ */
+
 public class UserServlet extends HttpServlet {
     private UserServices userServices;
     private UserDAO udao;
@@ -20,12 +25,34 @@ public class UserServlet extends HttpServlet {
 
         this.udao = new UserDAO();
     }
+
+    /**
+     * This request is automatically called on UI page load to get user information.
+     * The received information is from the header as the username.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = udao.getUserByUsername(req.getHeader("userName"));
         resp.setStatus(200);
         resp.getWriter().print(new ObjectMapper().writeValueAsString(user));
     }
+
+    /**
+     * A request is received ot create new user data here. It first checks whether the entered information for
+     * the username and email is unique. If both of those items check, then it will send the entered data to
+     * the services layer for validation. Depending on where it fails, the Service layer will respond with a number
+     * and based on that number, the response from the backend here will differ. For example, if it sends status
+     * 452, then the password requirements are not met. A successful response will creat a new user and send
+     * information back to the front end as a token to store the currently logged in user.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     //creation of user
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -3,6 +3,12 @@ package DTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * This class is created, so when the user/admin logs in, it will only send the parts needed instead of a full user.
+ * It is a pojo but contains the JSon ignore properties, so if more items are given
+ * to the backend from the front end, it can ignore those "unknown" fields.
+ */
+
 @JsonIgnoreProperties
 public class AuthDTO {
     private String userName;

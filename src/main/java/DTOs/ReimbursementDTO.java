@@ -3,6 +3,12 @@ package DTOs;
 import Models.Reimbursement;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * This class is created, so the user can update only the reimbursement parts needed.
+ * It is a pojo but contains the JSon ignore properties, so if more items are given
+ * to the backend from the front end, it can ignore those "unknown" fields.
+ */
+
 @JsonIgnoreProperties
 public class ReimbursementDTO{
     private int reimbursementId;

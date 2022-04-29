@@ -7,12 +7,22 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * This class is the mediator. It does validation checks and send data to the persistence layer.
+ */
+
 public class UserServices {
 
     private UserDAO udao = new UserDAO();
     private Regex reggie = new Regex();
 
-
+    /**
+     * Does checks and returns corresponding number if something does not pass a check.
+     * After all checks are complete, it will send the user model to be created in the DAO.
+     * @param model
+     * @return
+     */
     public int createNewUser(User model){
         if(!reggie.userNameCheck(model.getUserName())){
             System.out.println("Made it to regex username check.");
@@ -40,7 +50,13 @@ public class UserServices {
         }
     }
 
-
+    /**
+     * confirms username and password entered through the front end matches what is in the
+     * database for that user
+     * @param username
+     * @param password
+     * @return
+     */
     public User loginCheck(String username, String password){
         User user = udao.getUserByUsername(username);
         if(username != null && user.getPassword().equals(password)){

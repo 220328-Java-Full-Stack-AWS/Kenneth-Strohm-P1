@@ -12,12 +12,17 @@ public class DBConnector {
     //keep track of the connection
     private static Connection connection;
 
-    //keep track of this singleton
-    //how to make a singleton?
-    //making the constructor private so it can't be invoked
+    /**
+     * Keeps track of the singleton and is made private, so it can not be invoked
+     */
     private DBConnector(){
 
     }
+
+    /**
+     * is made public so the connection can be returned and calls the connect method.
+     * @return
+     */
     public static Connection getConnection(){
         if(connection == null){
             connection = connect();
@@ -26,7 +31,11 @@ public class DBConnector {
         return connection;
     }
 
-    //establish connection method
+    /**
+     * This method is made private so it can't be called directly outside of this class
+     * It concatenates the URL together from the properties file to connect to correct DB.
+     * @return
+     */
     private static Connection connect()  {
         Properties props = new Properties();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -51,6 +60,9 @@ public class DBConnector {
         return connection;
     }
 
+    /**
+     * Closes connection when finished.
+     */
     public static void close(){
         try {
             connection.close();

@@ -11,10 +11,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
+/**
+ * This is the class that allows us to read, write, update and delete Reimbursement data from our connected DB.
+ */
 
+public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
+    //Creates a new user dao to get User information
     private UserDAO udao = new UserDAO();
 
+    /**
+     * Creates a reimbursement in the DB and returns the model it has created.
+     * @param model
+     * @return
+     */
     @Override
     public Reimbursement create(Reimbursement model) {
         System.out.println(model.getAuthor());
@@ -43,6 +52,12 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
         return model;
     }
 
+    /**
+     * This takes in an ID and then finds the corresponding row in the database.
+     * It then returns that found reimbursement.
+     * @param id
+     * @return
+     */
     @Override
     //double reimbursementAmount, String description, Blob image, int author, int type
     public Reimbursement read(int id) {
@@ -73,13 +88,12 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
         return reimb;
     }
 
-    //This section is for the admin
-    //
-    //
-    //
-    //
-
-
+    /**
+     * This is for the admin and can probably be made into another DAO
+     * It returns all the reimbursements created that's value is 1.
+     * The value being 1 means its pending and can be approved or denied.
+     * @return
+     */
     @Override
     public List<Reimbursement> getAll() {
         List<Reimbursement> list = new LinkedList<>();
@@ -132,6 +146,11 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
         return list;
     }
 
+    /**
+     * This again is for the admin and can probably be in another DAO
+     * It updates only the parts needed from the admin, and they can change nothing else
+     * @param model
+     */
     public void adminUpdate(Reimbursement model) {
         try {
             String sql = "UPDATE ers_reimbursement SET reimb_status_id = ?, reimb_resolved = ?, reimb_resolver = ? WHERE reimb_id = ?";
@@ -147,12 +166,12 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
         }
     }
 
-
-    //Admin stuff is done
-    //
-    //
-    //
-
+    /**
+     * This gets all the reimbursements for a particular id.
+     * In the overall application context, it should be the logged-in user.
+     * @param id
+     * @return
+     */
     public List<Reimbursement> getAllForUser(int id) {
         List<Reimbursement> list = new LinkedList<>();
         try{
@@ -172,6 +191,7 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
                 reimb.setType(rs.getInt("reimb_type_id"));
                 reimb.setAuthorName(udao.read(reimb.getAuthor()).getUserName());
                 reimb.setResolverName(udao.read(reimb.getResolver()).getUserName());
+                //This just sets it to readable text instead of a number
                 switch (reimb.getStatus()){
                     case 1:
                         reimb.setEnumStatus(Status.PENDING);
@@ -207,6 +227,11 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
         return list;
     }
 
+    /**
+     * Updates the reimbursement for a particular id. The id again should be the current logged-in user.
+     * @param model
+     */
+
     @Override
     public void update(Reimbursement model) {
         try {
@@ -225,6 +250,10 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
         }
     }
 
+    /**
+     * Deletes based on reimbursement id. The front end handles which id is passed back.
+     * @param id
+     */
     @Override
     public void delete(int id) {
         try {
@@ -239,6 +268,10 @@ public class ReimbursementDAO implements CRUDInterface<Reimbursement> {
 
     }
 
+    /**
+     * This is pulled from Crud interface but is never used.
+     * @param model
+     */
     @Override
     public void delete(Reimbursement model) {
 

@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This servlet class handles the requests from the front end and sends a response back.
+ */
+
 public class AdminServlet extends HttpServlet {
     private ReimbursementServices rServices;
 
@@ -20,6 +24,15 @@ public class AdminServlet extends HttpServlet {
         this.rServices = new ReimbursementServices();
     }
 
+    /**
+     * This class will be called automatically when a UI page loads.
+     * When it loads, it should load with all reimbursement objects in database
+     * that are neither approved nor denied.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Made it to get method in AdminServlet");
@@ -31,6 +44,14 @@ public class AdminServlet extends HttpServlet {
         resp.setStatus(200);
     }
 
+    /**
+     * This takes in user input from a page and updates the status of the reimbursement
+     * It returns 200 status if it went through correctly
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Made it to put section of admin");
